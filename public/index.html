@@ -4,9 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кринж книжка</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+    <title>Записная книжка</title>
 </head>
 <body>
-    <h1>Надо писить</h1>
+    <div class="App">
+        <div class="user_block">
+            <div class="unlogged">
+                <label class="enter_text">Вам нужно войти</label>
+                <input id="login_input" placeholder="Логин" class="input_style" type="text">
+                <input id="password_input" placeholder="Пароль" class="input_style" type="text">
+                <button id="login_button" class="button_style">Войти</button>
+                <button id="register_button" class="button_style">Зарегистрироваться</button>
+            </div>
+            <div class="logged hidden"></div>
+        </div>
+        <div class="book">
+            <div class="unlogged">
+                Вы не зашли
+            </div>
+            <div id="book_content" class="logged hidden"></div>
+        </div>
+    </div>
 </body>
 </html>

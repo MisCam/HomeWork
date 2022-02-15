@@ -1,8 +1,7 @@
 class PhoneBook {
     constructor() {
         this.book = [];
-    }
-
+    }  
     isNumberValid = (number) => {
         while (number.includes(" ")) {
             number = number.replace(" ", "");
@@ -30,11 +29,9 @@ class PhoneBook {
 
         return true;
     };
-
     getBook() {
         return this.book;
     }
-
     add(number, name) {
         if(this.isNumberValid(number)){
             this.book.push({
@@ -45,8 +42,9 @@ class PhoneBook {
         }
         return false;
     }
-
     delete(){
         
     }
 }
+
+module.exports = PhoneBook;

@@ -18,3 +18,5 @@ function BaseRouter(){
         {code:9000, text: ERROR[9000] }
     }
 }
+
+module.exports = BaseRouter;
