@@ -15,6 +15,9 @@ const phoneBook = new PhoneBook();
 const Router = require("./application/router/Router");
 const router = new Router({ phoneBook });
 
+
+console.log(321);
+
 app.use(express.static(__dirname + "/public"));
 app.use("/", router);
 
