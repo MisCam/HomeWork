@@ -16,6 +16,9 @@
     justify-content: center;
     align-items: center;
 }
+#book_content {
+    overflow-y: scroll;
+}
 .unlogged, .logged {
     display: flex;
     flex-direction: column;
@@ -66,4 +69,33 @@
     background-color: #ffffff90;
     border-radius: 20px;
     margin-left: 20px;
+    overflow: hidden;
+}
+.contact {
+    width: 100%;
+    min-height: 50px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1px;
+}
+.contact_delete {
+    width: 30px;
+    height: 30px;
+    background-color: #ececec;
+    border-radius: 50%;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+.contact_delete:hover {
+    background-color: rgb(196, 196, 196);
+}
+::-webkit-scrollbar {
+    width: 3px;
+    background-color: #131111;
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(146, 146, 146);
 }
