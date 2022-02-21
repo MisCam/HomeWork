@@ -4,8 +4,6 @@ class userManager {
     }
      
     registration(login, password) {
-        console.log(login);
-        console.log(password);
         for (let i = 0; i < this.users.length; i++){
             if(this.users[i].login === login){
                 return false;
@@ -21,11 +19,14 @@ class userManager {
 
     login(login, password){
         for(let i = 0; i < this.users.length; i++){
-            if(this.users.login === login && this.users.password === password){
-                return true; 
+            if(this.users[i].login === login && this.users[i].password === password){
+                return {
+                    ok: true,
+                    id: i
+                }; 
             }
         } 
-        return false;
+        return { ok: false };
     }
 }
 

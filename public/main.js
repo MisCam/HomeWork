@@ -77,6 +77,7 @@ async function loginRequest() {
 }
 async function registrationRequest() {
   if (login_input.value === "" || password_input.value === "") return;
+  console.log('ya huesos');
   const answer = await fetch(
     `http://localhost:3000/users/registration/${login_input.value}/${password_input.value}`
   );
@@ -93,6 +94,6 @@ async function publish() {
   if (number_input.value === "" || name_input.value === "") return;
   await fetch(`http://localhost:3000/add/registration/${localStorage.getItem('user_id')}/${number_input.value}/${name_input.value}`);
 }
-function deleteContact(number) {
+async function deleteContact(number) {
     await fetch(`http://localhost:3000/add/registration/${localStorage.getItem('user_id')}/${number}`);
 }
