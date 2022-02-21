@@ -4,11 +4,11 @@ const router = express.Router();
 const baseRouter = require("./BaseRouter");
 
 function Router({ phoneBook, userManager }) {
-  router.get("/phoneBook/show", showPhoneBookHandler);
-  router.get("/api/registration/:login/:password",registrationHandler);
-  router.get("/api/login/:login/:password", loginHandler);
-  router.get("/phoneBook/add/:number/:name", phoneBookAddHandler);
-  router.get("/phoneBook/delete/:number", phoneBookDeleteHandler);
+  router.get("/book/show/:user_id", showPhoneBookHandler);
+  router.get("/users/registration/:login/:password",registrationHandler);
+  router.get("/users/login/:login/:password", loginHandler);
+  router.get("/book/add/:user_id/:number/:name", phoneBookAddHandler);
+  router.get("/book/delete/:user_id/:number", phoneBookDeleteHandler);
   router.get("/*", getError);
 
   const BaseRouter = new baseRouter();
