@@ -15,7 +15,8 @@ class PhoneBook {
       };
     }
   };
-  getBook(id) {
+
+  show(id) {
     return this.books[id];
   }
 

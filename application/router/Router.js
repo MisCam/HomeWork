@@ -4,7 +4,7 @@ const router = express.Router();
 const baseRouter = require("./BaseRouter");
 
 function Router({ phoneBook, userManager }) {
-  router.get("/book/show/:user_id", showPhoneBookHandler);
+  router.get("/book/show/:id", showPhoneBookHandler);
   router.get("/users/registration/:login/:password",registrationHandler);
   router.get("/users/login/:login/:password", loginHandler);
   router.get("/book/add/:user_id/:number/:name", phoneBookAddHandler);
@@ -18,7 +18,8 @@ function Router({ phoneBook, userManager }) {
   }
 
   function showPhoneBookHandler(request, response) {
-    response.json(phoneBook.getBook());
+    const { user_id } = request.params;
+    response.json(phoneBook.show(user_id));
   }
 
   function phoneBookAddHandler(request, response) {
@@ -44,8 +45,9 @@ function Router({ phoneBook, userManager }) {
 
   function registrationHandler(request, response){
     const {login, password} = request.params;
-    const result = this.userManager.registration(login, password);
-    if(result){ 
+    const result = userManager.registration(login, password);
+    if(result){
+      phoneBook.createBook();
       response.json(BaseRouter.answer('Пользователь был зарегестрирован'));
       return;
     }
@@ -54,9 +56,9 @@ function Router({ phoneBook, userManager }) {
 
   function loginHandler(request, response){
     const {login, password} = request.params;
-    const result = this.userManager.login(login, password);
-    if(result){ 
-      response.json(BaseRouter.answer('Пользовталей успешно зашел'));
+    const result = userManager.login(login, password);
+    if(result.ok){ 
+      response.json(BaseRouter.answer(result.id));
       return;
     }
     response.json(BaseRouter.error(1003));
