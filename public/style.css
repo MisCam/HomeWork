@@ -42,7 +42,7 @@
     height: 80%;
     width: 350px;
     background-color: #ffffff90;
-    border-radius: 20px;
+    border-radius: 5px;
     padding: 30px;
 }
 .enter_text {
@@ -67,7 +67,7 @@
     height: 80%;
     width: 40%;
     background-color: #ffffff90;
-    border-radius: 20px;
+    border-radius: 5px;
     margin-left: 20px;
     overflow: hidden;
 }
@@ -91,6 +91,31 @@
 }
 .contact_delete:hover {
     background-color: rgb(196, 196, 196);
+}
+.add_contact {
+    width: 100%;
+    min-height: 50px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+#number_input, #name_input {
+    width: 30%;
+    height: 30px;
+    border: 2px solid #d8d8d8;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+#public_number {
+    padding: 5px 5px;
+    background-color: #d8d8d8;
+    border-radius: 5px;
+    transition: all 0.15s ease-in-out;
+}
+#public_number:hover {
+    background-color: #b6b5b5;
 }
 ::-webkit-scrollbar {
     width: 3px;

@@ -22,7 +22,7 @@ function Router({ phoneBook, userManager }) {
   }
 
   function phoneBookAddHandler(request, response) {
-    const { number, name } = response.params;
+    const { number, name } = request.params;
     const result = phoneBook.add(number, name,id);
     if (result) {
       response.json(BaseRouter.answer(true));
@@ -31,8 +31,9 @@ function Router({ phoneBook, userManager }) {
   }
 
   function phoneBookDeleteHandler(request, response) {
+    const { number } = request.params
     for (let i = 0; i < book.length; i++) {
-      if (book[i].number === request.params["number"]) {
+      if (book[i].number === number) {
         book.splice(i, 1);
         response.json(BaseRouter.answer("Пользователь был удалён"));
         return;
@@ -42,7 +43,7 @@ function Router({ phoneBook, userManager }) {
   }
 
   function registrationHandler(request, response){
-    const {login, password} = response.params;
+    const {login, password} = request.params;
     const result = this.userManager.registration(login, password);
     if(result){ 
       response.json(BaseRouter.answer('Пользователь был зарегестрирован'));
@@ -52,7 +53,7 @@ function Router({ phoneBook, userManager }) {
   }
 
   function loginHandler(request, response){
-    const {login, password} = response.params;
+    const {login, password} = request.params;
     const result = this.userManager.login(login, password);
     if(result){ 
       response.json(BaseRouter.answer('Пользовталей успешно зашел'));
