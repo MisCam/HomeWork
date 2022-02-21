@@ -1,6 +1,6 @@
 class PhoneBook {
     constructor() {
-        this.book = [];
+        this.books = [];
     }  
     isNumberValid = (number) => {
         while (number.includes(" ")) {
@@ -29,12 +29,18 @@ class PhoneBook {
 
         return true;
     };
-    getBook() {
-        return this.book;
+    getBook(id) {
+        return this.books[id];
     }
-    add(number, name) {
+
+    createBook(){
+        this.books.push([]);
+        return true;
+    }
+ 
+    add(number, name, id) {
         if(this.isNumberValid(number)){
-            this.book.push({
+            this.books[id].push({
                 number: number,
                 name: name
             });

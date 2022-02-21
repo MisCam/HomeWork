@@ -12,11 +12,12 @@ app.use(function (req, res, next) {
 const PhoneBook = require("./application/modules/phonebook/PhoneBook");
 const phoneBook = new PhoneBook();
 
+const UserManager = require("./application/modules/userManager/UserManager");
+const userManager = new UserManager();
+
 const Router = require("./application/router/Router");
-const router = new Router({ phoneBook });
+const router = new Router({ phoneBook, userManager});
 
-
-console.log(321);
 
 app.use(express.static(__dirname + "/public"));
 app.use("/", router);
