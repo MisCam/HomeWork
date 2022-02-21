@@ -3,9 +3,10 @@ const router = express.Router();
 
 const baseRouter = require("./BaseRouter");
 
-function Router({ phoneBook }) {
-  router.get("/", allow);
+function Router({ phoneBook, userManager }) {
   router.get("/phoneBook/show", showPhoneBookHandler);
+  router.get("/api/registration/:login/:password",registrationHandler);
+  router.get("/api/login/:login/:password", loginHandler);
   router.get("/phoneBook/add/:number/:name", phoneBookAddHandler);
   router.get("/phoneBook/delete/:number", phoneBookDeleteHandler);
   router.get("/*", getError);
@@ -22,7 +23,7 @@ function Router({ phoneBook }) {
 
   function phoneBookAddHandler(request, response) {
     const { number, name } = response.params;
-    const result = phoneBook.add(number, name);
+    const result = phoneBook.add(number, name,id);
     if (result) {
       response.json(BaseRouter.answer(true));
     }
@@ -38,6 +39,26 @@ function Router({ phoneBook }) {
       }
     }
     response.json(BaseRouter.error(1002));
+  }
+
+  function registrationHandler(request, response){
+    const {login, password} = response.params;
+    const result = this.userManager.registration(login, password);
+    if(result){ 
+      response.json(BaseRouter.answer('Пользователь был зарегестрирован'));
+      return;
+    }
+    response.json(BaseRouter.error(1001));
+  }
+
+  function loginHandler(request, response){
+    const {login, password} = response.params;
+    const result = this.userManager.login(login, password);
+    if(result){ 
+      response.json(BaseRouter.answer('Пользовталей успешно зашел'));
+      return;
+    }
+    response.json(BaseRouter.error(1003));
   }
 
   return router;
