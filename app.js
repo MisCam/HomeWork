@@ -1,25 +1,24 @@
 const express = require("express");
 const app = express();
+const Mediator = require('./application/modules/Mediator');
+const PhoneBook = require("./application/modules/phonebook/PhoneBook");
+const UserManager = require("./application/modules/userManager/UserManager");
 
-app.use(function (req, res, next) {
+const { PORT, NAME, VERSION, MEDIATOR } = require('./config');
+const mediator = new Mediator(MEDIATOR);
+new UserManager({ mediator });
+new PhoneBook({ mediator });
+
+const Router = require("./application/router/Router");
+const router = new Router({ mediator });
+app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
-
-const PhoneBook = require("./application/modules/phonebook/PhoneBook");
-const phoneBook = new PhoneBook();
-
-const UserManager = require("./application/modules/userManager/UserManager");
-const userManager = new UserManager();
-
-const Router = require("./application/router/Router");
-const router = new Router({ phoneBook, userManager});
-
-
 app.use(express.static(__dirname + "/public"));
 app.use("/", router);
 
-app.listen(3000, () => console.log("Я работаю за еду!"));
+app.listen(PORT, () => console.log(`App ${NAME} version ${VERSION}`));
