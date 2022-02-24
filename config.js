@@ -6,9 +6,12 @@ const CONFIG = {
     MEDIATOR: {
         EVENTS: {
             USER_LOGIN: 'USER_LOGIN',
+            USER_LOGOUT: 'USER_LOGOUT',
         },
         TRIGGERS: {
             GET_USER_NAME: 'GET_USER_NAME',
+            SHOW_CONTACTS: 'SHOW_CONTACTS',
+            ADD_USER: 'ADD_USER',
         }
     }
 }

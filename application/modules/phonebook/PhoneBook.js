@@ -5,17 +5,9 @@ class PhoneBook extends BaseModule {
         super(options);
         this.books = [];
 
-        const name = this.mediator.get(
-            this.TRIGGERS.GET_USER_NAME, 
-            'Ivanoff'
-        );
-
-        this.mediator.subscribe(this.EVENTS.USER_LOGIN, user => this.userLogin(user));
+        this.mediator.subscribe(this.EVENTS.USER_LOGIN, id => this.show(id));
     }
 
-    userLogin(user) {
-        console.log('in PhoneBook', user);
-    }
 
     isNumberValid(number) {
         if (number.replace(/[^\d]/g, "").length === 11) {
@@ -50,7 +42,17 @@ class PhoneBook extends BaseModule {
         }
         return false;
     }
-    delete() { }
+
+
+    deleteContact(number, user_id) {
+        for(let i = 0; i < this.books[user_id].length; i++){
+            if(this.books[user_id][i].number === number){
+                this.books[user_id].splice(i, 1);
+                return 'Пользователь удален';
+            }
+        }
+        return false;
+    }
 }
 
 module.exports = PhoneBook;

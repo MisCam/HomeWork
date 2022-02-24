@@ -3,7 +3,7 @@ const router = express.Router();
 
 const baseRouter = require("./BaseRouter");
 
-function Router({ phoneBook, userManager }) {
+function Router({ mediator }) {
     router.get("/book/show/:id", showPhoneBookHandler);
     router.get("/users/registration/:login/:password", registrationHandler);
     router.get("/users/login/:login/:password", loginHandler);
@@ -19,7 +19,7 @@ function Router({ phoneBook, userManager }) {
 
     function showPhoneBookHandler(request, response) {
         const { user_id } = request.params;
-        response.json(phoneBook.show(user_id));
+        response.json(mediator.TRIGGERS.SHOW_CONTACTS(user_id));
     }
 
     function phoneBookAddHandler(request, response) {
@@ -58,6 +58,7 @@ function Router({ phoneBook, userManager }) {
         const { login, password } = request.params;
         const result = userManager.login(login, password);
         if (result) {
+            mediator.call(mediator.events, )
             response.json(BaseRouter.answer(result));
             return;
         }
