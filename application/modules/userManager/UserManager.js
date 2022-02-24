@@ -6,26 +6,40 @@ class userManager extends BaseModule {
         this.users = [];
 
         this.mediator.set(
-            this.TRIGGERS.GET_USER_NAME, 
-            lastName => `Vasya ${lastName || 'Noname'}`
+            this.TRIGGERS.GET_USER_ID, 
+            (login, password) => this.login(login, password),
+        );
+        this.mediator.set(
+            this.TRIGGERS.CHECK_USER, 
+            (login, password) => this.checkUser(login),
+        );
+        this.mediator.subscribe(
+            this.EVENTS.USER_REGISTRATION, 
+            (login, password) => this.registration(login, password),
         );
     }
 
-    registration(login, password) {
+    checkUser(login){
         for (let i = 0; i < this.users.length; i++) {
-            if (this.users[i].login === login) {
-                return false;
+            if (this.users[i].login == login) {               
+                return true;
             }
         }
+        return false;
+    }
 
+    registration(data) {
+        const {login, password} = data;
         if (login && password) {
             const user = { login, password };
             this.users.push(user);
         }
+        console.log(this.users);
         return true;
     }
 
-    login(login, password) {
+    login(data) {
+        const {login, password} = data;
         for (let i = 0; i < this.users.length; i++) {
             if (this.users[i].login === login &&
                 this.users[i].password === password

@@ -5,7 +5,12 @@ class PhoneBook extends BaseModule {
         super(options);
         this.books = [];
 
-        this.mediator.subscribe(this.EVENTS.USER_LOGIN, id => this.show(id));
+        this.mediator.subscribe(this.EVENTS.USER_LOGIN, user_id => this.show(user_id));
+        
+        this.mediator.subscribe(
+            this.EVENTS.USER_REGISTRATION, 
+            () => this.createBook(),
+        );
     }
 
 
@@ -22,8 +27,8 @@ class PhoneBook extends BaseModule {
         };
     };
 
-    show(id) {
-        return this.books[id];
+    show(user_id) {
+        return this.books[user_id];
     }
 
     createBook() {
