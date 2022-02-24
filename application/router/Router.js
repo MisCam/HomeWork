@@ -36,10 +36,9 @@ function Router({ mediator }) {
         return;
         response.json(BaseRouter.error(1002));
     }
-
     function registrationHandler(request, response) {
         const { login, password } = request.params;
-        const user = mediator.get(mediator.TRIGGERS.CHECK_USER, {login, password});
+        const user = mediator.get(mediator.TRIGGERS.CHECK_USER, login);
         if (!user) {
             mediator.call(mediator.EVENTS.USER_REGISTRATION, {login, password});
             response.json(BaseRouter.answer('Пользователь был зарегестрирован'));
@@ -47,11 +46,10 @@ function Router({ mediator }) {
         }
         response.json(BaseRouter.error(1001));
     }
-
     function loginHandler(request, response) {
         const { login, password } = request.params;
         const user_id = mediator.get(mediator.TRIGGERS.GET_USER_ID, {login, password});
-        if (user_id) {            
+        if (user_id !== false) {            
             response.json(BaseRouter.answer(mediator.call(mediator.EVENTS.USER_LOGIN, user_id)));
             return;
         }

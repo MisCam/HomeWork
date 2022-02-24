@@ -77,7 +77,6 @@ async function loginRequest() {
 }
 async function registrationRequest() {
   if (login_input.value === "" || password_input.value === "") return;
-  console.log('ya huesos');
   const answer = await fetch(
     `http://localhost:3000/users/registration/${login_input.value}/${password_input.value}`
   );

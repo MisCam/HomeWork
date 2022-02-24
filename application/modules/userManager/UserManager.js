@@ -11,7 +11,7 @@ class userManager extends BaseModule {
         );
         this.mediator.set(
             this.TRIGGERS.CHECK_USER, 
-            (login, password) => this.checkUser(login),
+            (login) => this.checkUser(login),
         );
         this.mediator.subscribe(
             this.EVENTS.USER_REGISTRATION, 
@@ -21,7 +21,7 @@ class userManager extends BaseModule {
 
     checkUser(login){
         for (let i = 0; i < this.users.length; i++) {
-            if (this.users[i].login == login) {               
+            if (this.users[i].login === login) {               
                 return true;
             }
         }
@@ -34,7 +34,6 @@ class userManager extends BaseModule {
             const user = { login, password };
             this.users.push(user);
         }
-        console.log(this.users);
         return true;
     }
 
