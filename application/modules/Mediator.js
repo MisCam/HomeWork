@@ -47,6 +47,7 @@ class Mediator {
         if (name && this.events[name]) {
             this.events[name].forEach(func => {
                 if (func instanceof Function) {
+                    console.log(func);
                     func(data);
                 }
             });
