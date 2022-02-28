@@ -6,7 +6,7 @@ const baseRouter = require("./BaseRouter");
 function Router({ mediator }) {
     router.get("/users/registration/:login/:password", registrationHandler);
     router.get("/users/login/:login/:password", loginHandler);
-    router.get("/book/add/:number/:name/:login", phoneBookAddHandler);
+    router.get("/book/add/:number/:name/:user_id", phoneBookAddHandler);
     router.get("/book/delete/:number/:user_id", phoneBookDeleteHandler);
     router.get("/*", getError);
 
@@ -17,21 +17,18 @@ function Router({ mediator }) {
     }
 
     function phoneBookAddHandler(request, response) {
-        const { number, name, login } = request.params;
-        const user_id = mediator.get(mediator.TRIGGERS.GET_USER_ID, login);
-        if (user_id !== false) {
-            mediator.get(TRIGGERS.ADD_USER, {number, name, user_id});
-            return response.json(BaseRouter.answer(true));
+        const { number, name, user_id } = request.params;
+        if (user_id) {
+            return response.json(BaseRouter.answer(mediator.get(mediator.TRIGGERS.ADD_CONTACT, {number, name, user_id})));
         }
         response.json(BaseRouter.error(1001));
     }
+
     //это
     function phoneBookDeleteHandler(request, response) {
-        const { number, login } = request.params;
-        const user_id = mediator.get(mediator.TRIGGERS.GET_USER_ID, login);
-        if(user_id !== false){
-            mediator.get(TRIGGERS.DELETE_USER, { number, user_id });
-            response.json(BaseRouter.answer(true));
+        const { number, user_id } = request.params;
+        if(user_id){
+            response.json(BaseRouter.answer(mediator.get(mediator.TRIGGERS.DELETE_CONTACT, { number, user_id })));
         }
         return response.json(BaseRouter.error(1002));
     }
@@ -50,9 +47,12 @@ function Router({ mediator }) {
     function loginHandler(request, response) {
         const { login, password } = request.params;
         const user_id = mediator.get(mediator.TRIGGERS.GET_USER_ID, {login, password});
-        if (user_id !== false) {            
-            console.log(mediator.call(mediator.EVENTS.USER_LOGIN, {user_id}));
-            response.json(BaseRouter.answer(true));
+        if (user_id !== false) {   
+            response.json(BaseRouter.answer({
+                id: user_id,
+                phoneBook:  mediator.get(mediator.TRIGGERS.GET_PHONE_BOOK, user_id),
+                noteBook:  mediator.get(mediator.TRIGGERS.GET_NOTE_BOOK, user_id),
+            }));
             return;
         }
         response.json(BaseRouter.error(1003));

@@ -5,11 +5,11 @@ class PhoneBook extends BaseModule {
         super(options);
         this.books = [];
 
-        this.mediator.set(this.TRIGGERS.ADD_USER, data => this.add(data));
+        this.mediator.set(this.TRIGGERS.ADD_CONTACT, data => this.add(data));
 
         this.mediator.set(this.TRIGGERS.DELETE_CONTACT, data => this.deleteContact(data));
 
-        this.mediator.subscribe(this.EVENTS.USER_LOGIN, user_id => this.show(user_id));
+        this.mediator.set(this.TRIGGERS.GET_PHONE_BOOK, user_id => this.show(user_id));
         
         this.mediator.subscribe(
             this.EVENTS.USER_REGISTRATION, 
@@ -31,7 +31,6 @@ class PhoneBook extends BaseModule {
     };
 
     show(user_id) {
-        console.log(this.books);
         return this.books[user_id];
     }
 
@@ -53,7 +52,6 @@ class PhoneBook extends BaseModule {
         }
         return false;
     }
-
 
     deleteContact(data) {
         const {number, user_id} = data;

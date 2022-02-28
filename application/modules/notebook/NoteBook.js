@@ -5,7 +5,7 @@ class NoteBook extends BaseModule {
         super(options);
         this.noteBooks = [];
         
-        this.mediator.subscribe(this.EVENTS.USER_LOGIN, user_id => this.showNoteBook(user_id));
+        this.mediator.set(this.TRIGGERS.GET_NOTE_BOOK, user_id => this.showNoteBook(user_id));
 
         this.mediator.subscribe(
             this.EVENTS.USER_REGISTRATION, 
