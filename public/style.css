@@ -18,6 +18,8 @@
 }
 #book_content {
     overflow-y: scroll;
+    width: 100%;
+    height: fit-content;
 }
 .unlogged, .logged {
     display: flex;

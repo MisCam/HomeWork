@@ -28,7 +28,7 @@ function Router({ mediator }) {
     function phoneBookDeleteHandler(request, response) {
         const { number, user_id } = request.params;
         if(user_id){
-            response.json(BaseRouter.answer(mediator.get(mediator.TRIGGERS.DELETE_CONTACT, { number, user_id })));
+            return response.json(BaseRouter.answer(mediator.get(mediator.TRIGGERS.DELETE_CONTACT, { number, user_id })));
         }
         return response.json(BaseRouter.error(1002));
     }

@@ -17,10 +17,11 @@ const name_input = document.getElementById("name_input");
 const publish_number = document.getElementById("publish_number");
 
 let actual_login = "";
+let user_id = -1;
 
 login_button.addEventListener("click", login);
 register_button.addEventListener("click", registrationRequest);
-publish_number.addEventListener('click', publish);
+publish_number.addEventListener("click", publish);
 logout_button.addEventListener("click", logout);
 
 async function login() {
@@ -29,20 +30,20 @@ async function login() {
     if (value.result === "ok") {
       actual_login = login_input.value;
       login_text.innerHTML = "Привет, " + actual_login;
-      for (let i = 0; i < unlogged_div.length; i++)
-        unlogged_div[i].classList.add("hidden");
-      for (let i = 0; i < logged_div.length; i++)
-        logged_div[i].classList.remove("hidden");
-      localStorage.setItem('user_id', value.data.id);
-      getBookRequest().then((answer) => {
-        if (answer.result === "ok") {
-          createContacts(answer.data);
-        }
-      });
+      swichDivs();
+      user_id = value.data.id;
+      createContacts(value.data.phoneBook);
     }
   });
 }
+function swichDivs() {
+  for (let i = 0; i < unlogged_div.length; i++)
+    unlogged_div[i].classList.add("hidden");
+  for (let i = 0; i < logged_div.length; i++)
+    logged_div[i].classList.remove("hidden");
+}
 function createContacts(book) {
+  book_content.innerHTML = '';
   for (let i = 0; i < book.length; i++) {
     const contact = document.createElement("div");
     contact.classList.add("contact");
@@ -56,17 +57,12 @@ function createContacts(book) {
     deleteButton.innerHTML = "X";
     number.innerHTML = book[i].number;
     name.innerHTML = book[i].name;
-    deleteButton.addEventListener('click', () => deleteContact(book[i].number));
+    deleteButton.addEventListener("click", () => deleteContact(book[i].number));
     contact.appendChild(number);
     contact.appendChild(name);
     contact.appendChild(deleteButton);
     book_content.insertBefore(contact, book_content.firstChild);
   }
-}
-async function getBookRequest() {
-  const answer = await fetch(`http://localhost:3000/book/show/${localStorage.getItem('user_id')}`);
-  const result = await answer.json();
-  return result;
 }
 async function loginRequest() {
   const answer = await fetch(
@@ -89,10 +85,36 @@ function logout() {
   for (let i = 0; i < logged_div.length; i++)
     logged_div[i].classList.add("hidden");
 }
+
 async function publish() {
-  if (number_input.value === "" || name_input.value === "") return;
-  await fetch(`http://localhost:3000/add/registration/${localStorage.getItem('user_id')}/${number_input.value}/${name_input.value}`);
+  console.log('chlen');
+  publishRequest().then((value) => {
+    if (value.result === "ok") {
+      createContacts(value.data);
+    }
+  });
 }
+
 async function deleteContact(number) {
-    await fetch(`http://localhost:3000/add/registration/${localStorage.getItem('user_id')}/${number}`);
+  deleteContactRequest(number).then((value) => {
+    if (value.result === "ok") {
+      createContacts(value.data);
+    }
+  });
+}
+
+async function publishRequest() {
+  if (number_input.value === "" || name_input.value === "") return;
+  const answer = await fetch(
+    `http://localhost:3000/book/add/${number_input.value}/${name_input.value}/${user_id}`
+  );
+  const result = await answer.json();
+  return result;
+}
+async function deleteContactRequest(number) {
+  const answer = await fetch(
+    `http://localhost:3000/book/delete/${number}/${user_id}`
+  );
+  const result = await answer.json();
+  return result;
 }
