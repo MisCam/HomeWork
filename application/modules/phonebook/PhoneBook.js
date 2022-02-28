@@ -5,14 +5,17 @@ class PhoneBook extends BaseModule {
         super(options);
         this.books = [];
 
-        this.mediator.subscribe(this.EVENTS.USER_LOGIN, user_id => this.show(user_id));
+        this.mediator.set(this.TRIGGERS.ADD_CONTACT, data => this.add(data));
+
+        this.mediator.set(this.TRIGGERS.DELETE_CONTACT, data => this.deleteContact(data));
+
+        this.mediator.set(this.TRIGGERS.GET_PHONE_BOOK, user_id => this.show(user_id));
         
         this.mediator.subscribe(
             this.EVENTS.USER_REGISTRATION, 
             () => this.createBook(),
         );
     }
-
 
     isNumberValid(number) {
         if (number.replace(/[^\d]/g, "").length === 11) {
@@ -36,24 +39,26 @@ class PhoneBook extends BaseModule {
         return true;
     }
 
-    add(number, name, id) {
+    add(data) {
+        const {number, name, user_id} = data;
         const answer = this.isNumberValid(number);
         if (answer.answer) {
-            this.books[id].push({
+            this.books[user_id].push({
                 number: answer.str,
                 name: name,
+                
             });
-            return true;
+            return this.show(user_id);
         }
         return false;
     }
 
-
-    deleteContact(number, user_id) {
+    deleteContact(data) {
+        const {number, user_id} = data;
         for(let i = 0; i < this.books[user_id].length; i++){
             if(this.books[user_id][i].number === number){
                 this.books[user_id].splice(i, 1);
-                return 'Пользователь удален';
+                return this.show(user_id);
             }
         }
         return false;
