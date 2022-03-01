@@ -16,8 +16,29 @@ const number_input = document.getElementById("number_input");
 const name_input = document.getElementById("name_input");
 const publish_number = document.getElementById("publish_number");
 
+const socket = io();
+
 let actual_login = "";
 let user_id = -1;
+
+socket.on('connect', () => {
+});
+
+socket.on('message', (data) => {
+  const content = document.getElementById('chat_content');
+  const message = document.createElement("div");
+  message.classList.add("message");
+  message.innerHTML = `пользователь ${data.actual_login} написал ${data.message}`;
+  content.appendChild(message);
+});
+
+document.getElementById('sendMessage').addEventListener('click', () => {
+  const message = document.getElementById('message').value;
+  console.log(actual_login);
+  socket.emit('message', { actual_login, message });
+});
+
+
 
 login_button.addEventListener("click", login);
 register_button.addEventListener("click", registrationRequest);
@@ -85,16 +106,13 @@ function logout() {
   for (let i = 0; i < logged_div.length; i++)
     logged_div[i].classList.add("hidden");
 }
-
 async function publish() {
-  console.log('chlen');
   publishRequest().then((value) => {
     if (value.result === "ok") {
       createContacts(value.data);
     }
   });
 }
-
 async function deleteContact(number) {
   deleteContactRequest(number).then((value) => {
     if (value.result === "ok") {
@@ -102,7 +120,6 @@ async function deleteContact(number) {
     }
   });
 }
-
 async function publishRequest() {
   if (number_input.value === "" || name_input.value === "") return;
   const answer = await fetch(
@@ -118,3 +135,12 @@ async function deleteContactRequest(number) {
   const result = await answer.json();
   return result;
 }
+
+// ДЗ
+/* 
+1) Объект IO прокидывать в контекст базового модуля и использовать в каждом
+модуле отдельно (как с медиатором)
+2) Абсолютно все названия сокетных событий должны быть прописаны в CONFIG, кроме
+connect и disconnect
+3) Написать модуль GameManager и сделать agario с чатом
+*/

@@ -56,10 +56,8 @@ class PhoneBook extends BaseModule {
     deleteContact(data) {
         const {number, user_id} = data;
         for(let i = 0; i < this.books[user_id].length; i++){
-            console.log(this.show(user_id));
             if(this.books[user_id][i].number === number){
                 this.books[user_id].splice(i, 1);
-                console.log(this.show(user_id));
                 return this.show(user_id);
             }
         }

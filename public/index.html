@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="socket.io-client-4.4.1/dist/socket.io.min.js" defer></script>
     <script src="main.js" defer></script>
     <title>Записная книжка</title>
 </head>
@@ -36,6 +37,14 @@
                     <input placeholder="Имя" id="name_input" type="text">
                     <button id="publish_number">Опубликовать</button>
                 </div>
+            </div>
+        </div>
+        <div class="chat">
+            <div id="chat_content">
+            </div>
+            <div class="control">
+                <input id='message' placeholder="message">
+                <button id='sendMessage'>Send</button>
             </div>
         </div>
     </div>

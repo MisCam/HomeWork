@@ -1,9 +1,18 @@
 const express = require("express");
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
 const Mediator = require('./application/modules/Mediator');
 const PhoneBook = require("./application/modules/phonebook/PhoneBook");
 const UserManager = require("./application/modules/userManager/UserManager");
 const NoteBook = require("./application/modules/notebook/NoteBook");
+
+io.on('connection', socket => {
+    console.log('connected ', socket.id);
+    socket.on('disconnect', () => console.log('disconnect', socket.id));
+    socket.on('message', data => io.emit('message', data));
+});
 
 const { PORT, NAME, VERSION, MEDIATOR } = require('./config');
 const mediator = new Mediator(MEDIATOR);
@@ -23,4 +32,4 @@ app.use((req, res, next) => {
 app.use(express.static(__dirname + "/public"));
 app.use("/", router);
 
-app.listen(PORT, () => console.log(`App ${NAME} version ${VERSION}`));
+server.listen(PORT, () => console.log(`App ${NAME} version ${VERSION}`));
